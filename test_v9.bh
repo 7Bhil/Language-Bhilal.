@@ -1,0 +1,54 @@
+# Test de la Version 9 : Encapsulation et Exceptions
+
+montre("--- Test de l'Encapsulation ---")
+
+classe CompteBancaire {
+    # Pour l'instant on initialise les propriétés via des méthodes
+    
+    fonction initialiser(montant) {
+        ceci["solde"] = montant
+    }
+
+    prive fonction log(message) {
+        montre("[LOG PRIVÉ]", message)
+    }
+
+    public fonction deposer(montant) {
+        ceci["solde"] = ceci["solde"] + montant
+        ceci.log("Dépôt de " + montant)
+    }
+
+    fonction afficher() {
+        montre("Solde actuel :", ceci["solde"])
+    }
+}
+
+soit monCompte = nouveau CompteBancaire()
+monCompte.initialiser(100)
+monCompte.deposer(50)
+monCompte.afficher()
+
+essaye {
+    montre("Tentative d'accès à une méthode privée...")
+    monCompte.log("Ceci ne devrait pas s'afficher")
+} attrape (e) {
+    montre("Erreur capturée :", e)
+}
+
+montre("\n--- Test des Exceptions ---")
+
+fonction diviser(a, b) {
+    si b == 0 {
+        lance "Division par zéro impossible !"
+    }
+    renvoie a / b
+}
+
+essaye {
+    montre("10 / 2 =", diviser(10, 2))
+    montre("10 / 0 =", diviser(10, 0))
+} attrape (err) {
+    montre("ERREUR :", err)
+} enfin {
+    montre("Fin du bloc de division.")
+}

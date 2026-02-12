@@ -1,0 +1,20 @@
+{
+  "name": "bhilal-lang",
+  "version": "1.0.0",
+  "description": "Un langage de programmation moderne, simple et puissant.",
+  "main": "bhilal.js",
+  "bin": {
+    "Bhilal": "./bhilal.js"
+  },
+  "keywords": [
+    "language",
+    "bhilal",
+    "interpreter",
+    "programming"
+  ],
+  "author": "Bhilal",
+  "license": "MIT",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
+}

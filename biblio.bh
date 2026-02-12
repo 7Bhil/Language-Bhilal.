@@ -1,0 +1,7 @@
+# Library file for V10 test
+
+fonction saluer_bibliotheque() {
+    montre("Salutations depuis le module bibliothèque !")
+}
+
+soit VERSION_BIBLIO = "1.0.0"

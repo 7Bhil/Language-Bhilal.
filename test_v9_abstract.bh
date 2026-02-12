@@ -1,0 +1,45 @@
+# Test de la Version 9 : Classes Abstraites et Interfaces
+
+montre("--- Test des Classes Abstraites ---")
+
+abstrait classe Forme {
+    fonction calculerAire() {
+        lance "La méthode calculerAire doit être redéfinie !"
+    }
+}
+
+classe Carree herite de Forme {
+    fonction initialiser(cote) {
+        ceci["cote"] = cote
+    }
+    
+    fonction calculerAire() {
+        renvoie ceci["cote"] * ceci["cote"]
+    }
+}
+
+essaye {
+    montre("Tentative d'instancier une classe abstraite...")
+    soit f = nouveau Forme()
+} attrape (e) {
+    montre("Erreur attendue :", e)
+}
+
+soit monCarre = nouveau Carree()
+monCarre.initialiser(5)
+montre("Aire du carré :", monCarre.calculerAire())
+
+montre("\n--- Test des Interfaces (Structure) ---")
+
+interface Volant {
+    fonction voler() {}
+}
+
+classe Oiseau herite de Volant { # Simulant 'implemente' par 'herite' pour l'instant
+    fonction voler() {
+        montre("L'oiseau s'envole !")
+    }
+}
+
+soit piaf = nouveau Oiseau()
+piaf.voler()
