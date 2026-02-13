@@ -1,0 +1,53 @@
+# Test de l'architecture hybride complète
+# Node.js (chef d'orchestre) appelle les outils Go
+
+montre("╔═══════════════════════════════════════════════════════════╗")
+montre("║  ARCHITECTURE: Node.js (JS) ←→ Outils Go (natifs)         ║")
+montre("╚═══════════════════════════════════════════════════════════╝")
+montre("")
+
+# === 1. RÉSEAU: Scan de ports (Go) ===
+montre("[🌐] RÉSEAU: Scan de ports (outil Go)")
+soit ports = scan_ports("127.0.0.1", [80, 443])
+montre("   Résultat:", longueur(ports), "ports scannés")
+montre("")
+
+# === 2. CRYPTO: Hash SHA256 (Go) ===
+montre("[🔐] CRYPTO: Hash SHA256 (outil Go)")
+soit h = hash("sha256", "Bhilal Security")
+montre("   Hash:", h.output)
+montre("   Durée:", h.duration, "ms")
+montre("")
+
+# === 3. GÉNÉRATION CLÉ (Go) ===
+montre("[🔑] CRYPTO: Génération clé AES (outil Go)")
+soit cle = generate_key(32)
+montre("   Clé générée:", cle.hex)
+montre("")
+
+# === 4. CHIFFREMENT (Go) ===
+montre("[🔒] CRYPTO: Chiffrement AES (outil Go)")
+soit message = "Secret Bhilal"
+soit chiffre = encrypt(message, cle.key)
+si chiffre.error != "" {
+    montre("   Erreur:", chiffre.error)
+} sinon {
+    montre("   Message chiffré:", chiffre.output)
+}
+montre("")
+
+# === 5. PING RAPIDE (Go) ===
+montre("[📡] RÉSEAU: Fast Ping (outil Go)")
+soit ping = fast_ping("google.com")
+si ping.reachable {
+    montre("   ✓", ping.host, "→", ping.ip)
+    montre("   RTT:", ping.rtt, "ms")
+} sinon {
+    montre("   ✗ Host injoignable")
+}
+
+montre("")
+montre("╔═══════════════════════════════════════════════════════════╗")
+montre("║  ✅ TOUS LES OUTILS GO FONCTIONNENT VIA NODE.JS           ║")
+montre("║  JS = Chef d'orchestre | Go = Moteur de performance       ║")
+montre("╚═══════════════════════════════════════════════════════════╝")

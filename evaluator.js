@@ -296,6 +296,175 @@ if (typeof module !== 'undefined' && module.exports) {
                 }
             }
         };
+        // === Outil: Crypto Tool (hash/chiffrement) ===
+        this.functions["hash"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const algo = args[0]; // md5, sha1, sha256, sha512
+                const data = args[1];
+                
+                const toolPath = path.join(__dirname, 'tools', 'crypto_tool');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil crypto_tool non compilé" };
+                }
+                
+                try {
+                    const cmd = `"${toolPath}" hash "${algo}" "${data}"`;
+                    const output = execSync(cmd).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
+        this.functions["encrypt"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const data = args[0];
+                const key = args[1];
+                
+                const toolPath = path.join(__dirname, 'tools', 'crypto_tool');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil crypto_tool non compilé" };
+                }
+                
+                try {
+                    const cmd = `"${toolPath}" encrypt "${data}" "${key}"`;
+                    const output = execSync(cmd).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
+        this.functions["decrypt"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const ciphertext = args[0];
+                const key = args[1];
+                
+                const toolPath = path.join(__dirname, 'tools', 'crypto_tool');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil crypto_tool non compilé" };
+                }
+                
+                try {
+                    const cmd = `"${toolPath}" decrypt "${ciphertext}" "${key}"`;
+                    const output = execSync(cmd).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
+        this.functions["crypto_benchmark"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const algo = args[0];
+                const iterations = args[1] || 10000;
+                
+                const toolPath = path.join(__dirname, 'tools', 'crypto_tool');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil crypto_tool non compilé" };
+                }
+                
+                try {
+                    const cmd = `"${toolPath}" benchmark "${algo}" "${iterations}"`;
+                    const output = execSync(cmd).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
+        this.functions["generate_key"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const length = args[0] || 32;
+                
+                const toolPath = path.join(__dirname, 'tools', 'crypto_tool');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil crypto_tool non compilé" };
+                }
+                
+                try {
+                    const cmd = `"${toolPath}" generate_key "${length}"`;
+                    const output = execSync(cmd).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
+        // === Outil: Fast Ping (ICMP/TCP) ===
+        this.functions["fast_ping"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const host = args[0];
+                const port = args[1] || 80;
+                
+                const toolPath = path.join(__dirname, 'tools', 'fast_ping');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil fast_ping non compilé" };
+                }
+                
+                try {
+                    const cmd = `"${toolPath}" ping "${host}" "${port}"`;
+                    const output = execSync(cmd).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
+        this.functions["ping_sweep"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const network = args[0];
+                const workers = args[1] || 50;
+                
+                const toolPath = path.join(__dirname, 'tools', 'fast_ping');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil fast_ping non compilé" };
+                }
+                
+                try {
+                    const cmd = `"${toolPath}" sweep "${network}" "${workers}"`;
+                    const output = execSync(cmd).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
     }
 
     evaluate(node) {
