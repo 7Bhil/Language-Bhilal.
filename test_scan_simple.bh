@@ -1,0 +1,4 @@
+# Test simple de scan_ports
+montre("=== Test Scan de Ports (Node.js + Go) ===")
+soit resultats = scan_ports("127.0.0.1", [22, 80, 443])
+montre("Résultats:", resultats)

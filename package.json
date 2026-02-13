@@ -1,25 +1,49 @@
 {
   "name": "bhilal",
-  "version": "1.1.0",
-  "description": "Un langage de programmation moderne, simple et puissant.",
+  "version": "1.2.0",
+  "description": "Un langage de programmation moderne avec outils de cybersécurité intégrés (Node.js + Go)",
   "main": "bhilal.js",
   "bin": {
-    "bhilal": "./bhilal.js"
+    "bhilal": "./bin/bhilal",
+    "bhilal-install": "./scripts/install.js"
+  },
+  "scripts": {
+    "postinstall": "node scripts/install.js",
+    "compile-tools": "node scripts/install.js",
+    "test": "node bhilal.js test_rapide.bh"
   },
   "keywords": [
     "language",
     "bhilal",
     "interpreter",
-    "programming"
+    "programming",
+    "cybersecurity",
+    "port-scanner",
+    "penetration-testing",
+    "french"
   ],
   "author": "Bhilal",
   "license": "MIT",
   "dependencies": {
     "readline-sync": "^1.4.10"
   },
-  "devDependencies": {
-    "autoprefixer": "^10.4.24",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.19"
-  }
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "os": [
+    "linux",
+    "darwin",
+    "win32"
+  ],
+  "files": [
+    "*.js",
+    "tools/*.go",
+    "scripts/",
+    "bin/",
+    "*.bh",
+    "README.md",
+    "LICENSE"
+  ],
+  "preferGlobal": true
 }

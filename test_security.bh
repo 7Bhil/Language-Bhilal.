@@ -1,0 +1,83 @@
+# Test complet des outils de cybersécurité Bhilal
+# Architecture hybride Node.js + Go
+
+montre("╔═══════════════════════════════════════════════════════════════╗")
+montre("║   BHILAL SECURITY TOOLKIT v1.0 - Node.js + Go               ║")
+montre("╚═══════════════════════════════════════════════════════════════╝")
+montre("")
+
+# === 1. SCAN DE PORTS ===
+montre("[1] Scan de ports sur localhost")
+montre("--------------------------------")
+soit ports = scan_ports("127.0.0.1", [22, 80, 443, 3000, 8080, 3306])
+
+soit ouverts = 0
+pour chaque p dans ports {
+    si p.open {
+        montre("   ✓ Port", p.port, "→ OUVERT (", p.service, ")")
+        ouverts = ouverts + 1
+    }
+}
+montre("   Total:", ouverts, "ports ouverts sur", longueur(ports))
+montre("")
+
+# === 2. RÉSOLUTION DNS ===
+montre("[2] Résolution DNS")
+montre("------------------")
+soit dns = dns_resolve("github.com")
+si dns.found {
+    montre("   ✓ github.com →", dns.ips)
+} sinon {
+    montre("   ✗ Non trouvé")
+}
+montre("")
+
+# === 3. BRUTE FORCE DNS ===
+montre("[3] Brute force DNS (sous-domaines)")
+montre("------------------------------------")
+montre("   Recherche sur example.com...")
+soit subs = dns_bruteforce("example.com")
+montre("   Sous-domaines trouvés:", longueur(subs))
+pour chaque s dans subs {
+    montre("   ✓", s.hostname, "→", s.ips)
+}
+montre("")
+
+# === 4. SCAN DE SOUS-RÉSEAU ===
+montre("[4] Scan de sous-réseau (CIDR)")
+montre("--------------------------------")
+montre("   Scan 192.168.1.0/24...")
+soit subnet = subnet_scan("192.168.1.0/24", 1, 50)
+montre("   Hôtes scannés:", subnet.scanned)
+montre("   Hôtes vivants:", subnet.alive)
+pour chaque h dans subnet.hosts {
+    montre("   ✓", h.ip, "(RTT:", h.rtt_ms, "ms)")
+}
+montre("")
+
+# === 5. DIRBUSTER (BRUTE FORCE WEB) ===
+montre("[5] DirBuster - Brute force répertoires web")
+montre("--------------------------------------------")
+montre("   Scan http://httpbin.org...")
+soit dirs = dirbuster("http://httpbin.org")
+montre("   Répertoires trouvés:", longueur(dirs))
+pour chaque d dans dirs {
+    montre("   ✓", d.path, "→", d.status_code, "(", d.size, "bytes)")
+}
+montre("")
+
+# === 6. REQUÊTE HTTP ===
+montre("[6] Requête HTTP simple")
+montre("------------------------")
+soit req = requete_http("https://api.github.com")
+si req.status {
+    montre("   ✓ Status:", req.status)
+    montre("   ✓ Content-Type:", req.headers["content-type"])
+} sinon {
+    montre("   ✗ Erreur:", req.error)
+}
+
+montre("")
+montre("╔═══════════════════════════════════════════════════════════════╗")
+montre("║   Tests terminés! Bhilal Security Toolkit est opérationnel    ║")
+montre("╚═══════════════════════════════════════════════════════════════╝")

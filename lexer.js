@@ -74,7 +74,11 @@ class Lexer {
                     "throw": "lance",
                     "abstract": "abstrait",
                     "interface": "interface",
-                    "include": "inclure"
+                    "include": "inclure",
+                    "scan_ports": "scan_ports",
+                    "port_scan": "scan_ports",
+                    "http_request": "requete_http",
+                    "fetch": "requete_http"
                 };
 
                 // Si c'est un alias anglais, le remplacer par le mot français

@@ -137,6 +137,165 @@ if (typeof module !== 'undefined' && module.exports) {
                 }
             }
         };
+        // === Fonctions Réseau (via outils Go) ===
+        this.functions["scan_ports"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const host = args[0];
+                let portArg = "";
+                if (args[1] && Array.isArray(args[1])) {
+                    portArg = args[1].join(",");
+                }
+                
+                const toolPath = path.join(__dirname, 'tools', 'portscanner');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil portscanner non compilé. Lancez: cd tools && go build -o portscanner portscanner.go" };
+                }
+                
+                try {
+                    const cmd = portArg ? `"${toolPath}" "${host}" "${portArg}"` : `"${toolPath}" "${host}"`;
+                    const output = execSync(cmd).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
+        this.functions["requete_http"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const https = require('https');
+                const http = require('http');
+                const url = require('url');
+                
+                return new Promise((resolve) => {
+                    const targetUrl = args[0];
+                    const parsed = url.parse(targetUrl);
+                    const client = parsed.protocol === 'https:' ? https : http;
+                    
+                    const req = client.get(targetUrl, (res) => {
+                        let data = '';
+                        res.on('data', chunk => data += chunk);
+                        res.on('end', () => {
+                            resolve({
+                                status: res.statusCode,
+                                headers: res.headers,
+                                body: data
+                            });
+                        });
+                    });
+                    
+                    req.on('error', (e) => {
+                        resolve({ error: e.message });
+                    });
+                    
+                    req.setTimeout(5000, () => {
+                        req.destroy();
+                        resolve({ error: "Timeout" });
+                    });
+                });
+            }
+        };
+        // === Outil: DirBuster (brute force répertoires) ===
+        this.functions["dirbuster"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const url = args[0];
+                const wordlist = args[1] || "";
+                
+                const toolPath = path.join(__dirname, 'tools', 'dirbuster');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil dirbuster non compilé" };
+                }
+                
+                try {
+                    const cmd = wordlist ? `"${toolPath}" "${url}" "${wordlist}"` : `"${toolPath}" "${url}"`;
+                    const output = execSync(cmd, { timeout: 60000 }).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
+        // === Outil: DNS Resolver ===
+        this.functions["dns_resolve"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const hostname = args[0];
+                
+                const toolPath = path.join(__dirname, 'tools', 'dns_resolver');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil dns_resolver non compilé" };
+                }
+                
+                try {
+                    const output = execSync(`"${toolPath}" "${hostname}"`).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
+        this.functions["dns_bruteforce"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const domain = args[0];
+                
+                const toolPath = path.join(__dirname, 'tools', 'dns_resolver');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil dns_resolver non compilé" };
+                }
+                
+                try {
+                    const output = execSync(`"${toolPath}" --bruteforce "${domain}"`, { timeout: 60000 }).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
+        // === Outil: Subnet Scanner ===
+        this.functions["subnet_scan"] = {
+            type: "BuiltIn",
+            fn: (args) => {
+                const { execSync } = require('child_process');
+                const path = require('path');
+                const fs = require('fs');
+                
+                const cidr = args[0];
+                const timeout = args[1] || 2;
+                const workers = args[2] || 100;
+                
+                const toolPath = path.join(__dirname, 'tools', 'subnet_scanner');
+                if (!fs.existsSync(toolPath)) {
+                    return { error: "Outil subnet_scanner non compilé" };
+                }
+                
+                try {
+                    const cmd = `"${toolPath}" "${cidr}" --timeout=${timeout} --workers=${workers}`;
+                    const output = execSync(cmd, { timeout: 120000 }).toString();
+                    return JSON.parse(output);
+                } catch (e) {
+                    return { error: e.message };
+                }
+            }
+        };
     }
 
     evaluate(node) {

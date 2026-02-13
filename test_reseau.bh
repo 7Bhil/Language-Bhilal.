@@ -1,0 +1,28 @@
+# Test de l'architecture hybride Node.js + Go
+# Test des fonctions réseau
+
+montre("=== Test Scan de Ports ===")
+
+# Scanner les ports courants sur localhost
+soit resultats = scan_ports("127.0.0.1", [22, 80, 443, 3000, 8080])
+montre("Ports scannés:")
+
+# Afficher les résultats
+pour chaque resultat dans resultats {
+    si resultat.open {
+        montre("  Port", resultat.port, "- OUVERT (", resultat.service, ")")
+    } sinon {
+        montre("  Port", resultat.port, "- fermé")
+    }
+}
+
+montre("")
+montre("=== Test Requête HTTP ===")
+
+# Faire une requête HTTP (fonction asynchrone, retourne une promesse)
+soit reponse = requete_http("https://api.github.com")
+montre("Status:", reponse.status)
+montre("Headers:", reponse.headers)
+
+montre("")
+montre("Test terminé!")

@@ -1,0 +1,8 @@
+# Test rapide des outils
+montre("Test DNS resolve:")
+soit r = dns_resolve("github.com")
+montre(r)
+
+montre("\nTest portscan:")
+soit p = scan_ports("127.0.0.1", [80])
+montre(p)
