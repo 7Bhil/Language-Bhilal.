@@ -1,0 +1,25 @@
+# Test de la Version 10 : Fichiers et Modules
+
+montre("--- Test des Modules ---")
+inclure "biblio.bh"
+
+saluer_bibliotheque()
+montre("Version de la biblio :", VERSION_BIBLIO)
+
+montre("\n--- Test du Système de Fichiers ---")
+soit fichier_test = "test_io.txt"
+soit contenu_secret = "Bhilal est le meilleur langage du monde !"
+
+montre("Écriture dans", fichier_test, "...")
+ecrire(fichier_test, contenu_secret)
+
+montre("Lecture du fichier...")
+soit lu = lire(fichier_test)
+montre("Contenu lu :", lu)
+
+montre("\n--- Test des Extensions ---")
+montre("Date actuelle :", date())
+montre("Système :", execute("uname -a"))
+
+# Nettoyage
+execute("rm " + fichier_test)

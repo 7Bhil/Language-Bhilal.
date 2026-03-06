@@ -1,0 +1,26 @@
+# 🚀 L'Avenir du Langage Bhilal
+
+# Ce fichier liste les idées et les fonctionnalités prévues pour les prochaines versions.
+# Bhilal n'est pas juste un langage, c'est une vision !
+
+# --- Phase 1 : Connectivité (V11) ---
+# [ ] Reseau : requete("https://api.bhilal.com") pour le support HTTP/REST.
+# [ ] JSON : json_formater() et json_analyser() pour manipuler les données web.
+
+# --- Phase 2 : Performance & Asynchronisme (V12) ---
+# [ ] Asynchronisme : mots-clés "asynchrone" et "attendre" pour des opérations non-bloquantes.
+# [ ] Compilation JIT : Traduction en bytecode pour une exécution ultra-rapide.
+
+# --- Phase 3 : Écosystème (V13) ---
+# [ ] Gestionnaire de Paquets : "BPM" (Bhilal Package Manager) pour partager des modules.
+# [ ] Bibliothèque Graphique : dessiner() et fenetre() pour créer des interfaces visuelles.
+
+# --- Phase 4 : Typage & Sécurité (V14) ---
+# [ ] Types Statiques : "soit x: Nombre = 10" pour éviter les bugs à l'écriture.
+# [ ] Permissions : Mode "bac à sable" sécurisé pour limiter l'accès aux fichiers.
+
+# --- Phase Professionnelle ---
+# [ ] Extension VS Code : Coloration syntaxique et autocomplétion officielle.
+# [ ] Documentation Web : Un site interactif complet avec tutoriels.
+
+montre("Le futur de Bhilal est brillant. Continuons de coder !")
